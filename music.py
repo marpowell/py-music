@@ -2,8 +2,13 @@ import pyaudio
 import math
 from multiprocessing.dummy import Pool as ThreadPool 
 
+
 class music: 
-    
+    notes = {'C':0,'C#':1,'Db':1,'D':2,'D#':3,'Eb':3,
+             'E':4,'F':5,'F#':6,'Gb':6,'G':7,'G#':8,
+             'Ab':8,'A':9,'A#':10,'Bb':10,'B':11}
+    A4 = 12* 4 + 9 #A4 = 440 Hz
+
     def __init__(self,
                  rate=44100,
                  channels=2,
@@ -26,7 +31,7 @@ class music:
     def sine(self, x):
         x = round(self.amplitude * math.sin(x * self.coefficient))
         if x < 0:
-            x = int((math.pow(2,2*self.width)-1)) & x
+            x = int((math.pow(2,2*self.width)-1)) & x #two's compliment
         
         temp = 0
         
@@ -58,7 +63,8 @@ class music:
     def playTone(self, note, seconds):
         if (seconds < 0):
             raise ValueError('Seconds cannot be a negative number!') 
-                
+        
+        self.setFrequency(music._freqFromNote(note[:-1],int(note[-1:])))        
 
         for i in range(round(self.frequency * seconds)):
             self._audiostream.write(self.wave) #1 length of wave = 1 second (len(wave) = width*channels*rate)
@@ -66,7 +72,10 @@ class music:
         
         
         
-    
+    def _freqFromNote(letter, octave):
+        difference = (12 * octave + music.notes[letter]) - music.A4
+        return 440 * math.pow(2, difference / 12)
+        
     def terminate(self):
         self._audiostream.stop_stream()
         self._audiostream.close()
@@ -78,18 +87,14 @@ class music:
         
 m = music()
 
-m.playTone(1, .25)
-m.setFrequency(523.25)
-m.playTone(1, .1)
-m.setFrequency(659.25)
-m.playTone(1, .1)
-m.setFrequency(789.99)
-m.playTone(1, .1)
-m.setFrequency(987.77)
-m.playTone(1, .1)
-m.setFrequency(1318.51)
-m.playTone(1, .1)
-m.setFrequency(1046.50)
-m.playTone(1, .75)
+m.playTone("A4", .3)
+m.playTone("C5", .1)
+m.playTone("E5", .1)
+m.playTone("G5", .1)
+m.playTone("B5", .1)
+m.playTone("D6", .1)
+m.playTone("A6", .1)
+m.playTone("G6", .1)
+m.playTone("C6", .75)
 
 m.terminate()
