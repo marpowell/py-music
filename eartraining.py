@@ -2,14 +2,15 @@ import tkinter as tk
 import winsound
 import math
 import random
+import music
 
-letterModulus = {'C':0,'CX':1,'Db':1,'D':2,'DX':3,'Eb':3,'E':4,'F':5,'FX':6,'Gb':6,'G':7,'GX':8,'Ab':8,'A':9,'AX':10,'Bb':10,'B':11}
-A4 = 12* 4 + 9 #A4 = 440 Hz
+
     
 class EarTraining(tk.Frame):
     scorenum = 0
     total = 0
     state = 0
+    m = music.music()
     def __init__(self, master=None):
         #master.minsize(width = 600, height=600)
         #master.maxsize(width = 600, height=600)
@@ -39,16 +40,15 @@ class EarTraining(tk.Frame):
         
         self.grid()
 
-    
     def playTone(self):
-        if (self.state == 1):
+        if self.state == 1:
             return
         self.state = 1
-        randint = random.randint(1,12)
+        self.m.playTone("C5",1)
         
-    def getFreq(mod, mult):
-        difference = A4 - (12 * mult + letterModulus[mod])
-        return math.pow(math.pow(2,.125), difference) + 440
+    
+        
+    
         
 root = tk.Tk()
 app = EarTraining(master = root)
