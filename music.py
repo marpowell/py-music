@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pyaudio
 import math
 from multiprocessing.dummy import Pool as ThreadPool 
@@ -86,7 +87,7 @@ class music:
         
         
 m = music()
-
+'''
 m.playTone("A4", .3)
 m.playTone("C5", .1)
 m.playTone("E5", .1)
@@ -95,6 +96,6 @@ m.playTone("B5", .1)
 m.playTone("D6", .1)
 m.playTone("A6", .1)
 m.playTone("G6", .1)
-m.playTone("C6", .75)
+m.playTone("C6", .75)'''
 
 m.terminate()
